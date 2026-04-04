@@ -1,0 +1,1 @@
+"""Failsafe package – safety mechanisms."""

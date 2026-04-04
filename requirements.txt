@@ -1,0 +1,5 @@
+pymavlink>=2.4.41
+pyserial>=3.5
+PyYAML>=6.0
+opencv-python-headless>=4.8.0
+numpy>=1.24.0

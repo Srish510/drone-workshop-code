@@ -1,0 +1,37 @@
+# GCS Connection Configuration
+# Communication between RPi drone and Ground Control Station
+
+# Connection type: "serial", "udp", or "tcp"
+connection_type: "udp"
+
+# Serial connection settings (for direct cable / radio link)
+serial:
+  port: "/dev/ttyUSB0"
+  baud_rate: 57600
+  timeout: 1.0
+
+# UDP connection settings
+udp:
+  host: "0.0.0.0"
+  port: 2000
+
+# TCP connection settings
+tcp:
+  host: "0.0.0.0"
+  port: 5001
+
+# Camera / video streaming settings
+camera:
+  # Camera device index (0 for default RPi camera)
+  device_index: 0
+
+  type: "usb"  # "usb" for USB webcam, "rpi" for Raspberry Pi camera module
+  # Resolution for live camera feed
+  width: 640
+  height: 480
+  # JPEG compression quality (0-100)
+  jpeg_quality: 50
+  # Frames per second for streaming
+  fps: 15
+  # UDP port for video stream
+  stream_port: 2050

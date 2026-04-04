@@ -1,0 +1,30 @@
+# Pixhawk Connection Configuration
+# Choose between SITL (simulation) and physical Pixhawk
+
+# Connection mode: "sitl" or "physical"
+mode: "sitl"
+
+# SITL (Software In The Loop) connection settings
+sitl:
+  # Connection string for SITL (typically UDP)
+  connection_string: "udp:127.0.0.1:14551"
+  baud_rate: 115200
+
+# Physical Pixhawk serial connection settings
+physical:
+  # Serial port for the Pixhawk connected to RPi
+  connection_string: "/dev/ttyAMA0"
+  baud_rate: 57600
+
+# Flight parameters
+flight:
+  # Default takeoff altitude in meters
+  takeoff_altitude: 2.0
+  # Guided mode for no-GPS (GUIDED_NOGPS = 20) (GUIDED = 4)
+  flight_mode: 4
+  # Telemetry polling rate in Hz
+  telemetry_rate_hz: 10
+  # Arm check timeout in seconds
+  arm_timeout: 30
+  # Takeoff timeout in seconds
+  takeoff_timeout: 30
