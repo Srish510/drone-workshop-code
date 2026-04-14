@@ -25,7 +25,18 @@ src/
   utils/                 # Helper functions, logging, message parsing
 ```
 
+
 ## Quick Start
+
+### 0. Download the Code
+
+Clone the repository from GitHub:
+
+```bash
+git clone https://github.com/Srish510/drone-workshop-code.git
+cd drone-workshop-code
+```
+
 
 ### 1. Install Dependencies
 
