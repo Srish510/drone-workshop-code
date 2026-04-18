@@ -19,7 +19,7 @@ physical:
 # Flight parameters
 flight:
   # Default takeoff altitude in meters
-  takeoff_altitude: 2.0
+  takeoff_altitude: 10.0
   # Guided mode for no-GPS (GUIDED_NOGPS = 20) (GUIDED = 4)
   flight_mode: 4
   # Telemetry polling rate in Hz

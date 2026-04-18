@@ -81,12 +81,7 @@ class FlightController:
             target=self._telemetry_loop, daemon=True
         )
         self._telemetry_thread.start()
-        
-        # Start control loop thread
-        self._control_thread = threading.Thread(
-            target=self._control_loop, daemon=True
-        )
-        self._control_thread.start()
+
 
     def disconnect(self):
         self._running = False
@@ -267,6 +262,7 @@ class FlightController:
         logger.warning("No ACK received for land")
         return False
     
+    
     def go_to_coordinates(self, x: float, y: float, alt: float) -> bool:
         logger.info("Going to coordinates: x=%.6f, y=%.6f, z=%.1f", x, y, alt)
         lat, lon = meters_to_latlon(self.lat0, self.lon0, x, y)
@@ -283,20 +279,20 @@ class FlightController:
             0, 0, 0,             
             0, 0                  
         )
-        ack = self.connection.recv_match(type="COMMAND_ACK", blocking=True, timeout=10)
-        if ack and ack.command == mavutil.mavlink.MAV_CMD_NAV_WAYPOINT:
-            if ack.result == mavutil.mavlink.MAV_RESULT_ACCEPTED:
-                logger.info("Go to coordinates command accepted")
-                return True
-            logger.error("Go to coordinates rejected (result=%d)", ack.result)
-            return False
-        logger.warning("No ACK received for go_to_coordinates")
-        return False
+        return True
     
     def add_waypoint(self, x: float, y: float, alt: float):
         logger.info("Adding waypoint: x=%.6f, y=%.6f, z=%.1f", x, y, alt)
         with self._state_lock:
             self.waypoints.append((x, y, alt))
+
+    def start_mission(self):
+
+        self._control_thread = threading.Thread(
+            target=self._control_loop, daemon=True
+        )
+        self._control_thread.start()
+        logger.info("Mission control loop started")
         
         
     def _control_loop(self):
@@ -350,6 +346,7 @@ class FlightController:
                     count += 1
                     if count < len(targets):
                         next_target = targets[count]
+                        check = False
                         
                 # En route to next target
                 elif (d_h > HORIZ_TOL or d_v > VERT_TOL) and count > 0: 
@@ -364,10 +361,9 @@ class FlightController:
 
             #Only now run blocking operations
             if need_mode_change:
-                time.sleep(5)
+                time.sleep(0.6)
                 if not self.landing:
-                    self.set_mode(GUIDED)
                     if next_target:
                         self.go_to_coordinates(*next_target)
 
-            time.sleep(0.2)
+            time.sleep(0.1)

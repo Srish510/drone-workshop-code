@@ -101,6 +101,7 @@ class CommController:
             name = params.get("name", "unknown")
             self._send_log("info" if success else "error",
                            f"Mission {name} start {'succeeded' if success else 'failed'}")
+            self.fc.start_mission()
         elif command == "land":
             success = self.fc.land()
             self._send_log("info" if success else "error",
